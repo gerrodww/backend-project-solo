@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-![Alt text](image.png)
+![Alt text](../backend-project-solo/images/image.png)
 
 ## API Documentation
 
