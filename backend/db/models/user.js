@@ -4,12 +4,20 @@ const { Model, Validator } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      // define association here
+      User.hasMany(models.Spot, { foreignKey: 'ownerId' });
     }
   };
 
   User.init(
     {
+      firstName: {
+        type: DataTypes.STRING(50),
+        allowNull: false
+      },
+      lastName: {
+        type: DataTypes.STRING(50),
+        allowNull: false
+      },
       username: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -36,14 +44,6 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: [60, 60]
         }
-      },
-      firstName: {
-        type: DataTypes.STRING(50),
-        allowNull: false
-      },
-      lastName: {
-        type: DataTypes.STRING(50),
-        allowNull: false
       }
     },
     {
