@@ -1,5 +1,5 @@
 const express = require('express');
-const { Spot, Review, SpotImage, sequelize } = require('../../db/models');
+const { Spot, Review, SpotImage, User, sequelize } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
@@ -25,6 +25,15 @@ const calculateAvgRating = async spotId => {
     const totalStars = reviews.reduce((sum, review) => sum + review.stars, 0);
     const avgRating = totalStars / reviews.length;
     return parseFloat(avgRating.toFixed(2));
+};
+
+const calculateNumReviews = async spotId => {
+  const reviews = await Review.findAll({ 
+    where: {
+      spotId: spotId,
+    }
+  });
+  return reviews.length;
 };
 
 router.get('/current', requireAuth, async (req, res) => {
@@ -70,6 +79,54 @@ router.get('/current', requireAuth, async (req, res) => {
 
   res.status(200).json({ Spots: responseSpots });
 
+});
+
+router.get('/:spotId', async(req, res) => {
+  const spot = await Spot.findOne({where: { id: req.params.spotId },
+    attributes: { exclude: ["previewImage"] }
+  });
+
+  if (!spot) return res.status(404).json({ message: "Spot couldn't be found"});
+
+  spot.avgStarRating = await calculateAvgRating(spot.id);
+
+  spot.SpotImages = await SpotImage.findAll({
+    attributes: ['id', 'url', 'preview'],
+    where: {
+      spotId: spot.id,
+    },
+  });
+
+  const ownerUser = await User.findByPk(spot.ownerId);
+
+  spot.Owner = {
+    id: ownerUser.id,
+    firstName: ownerUser.firstName,
+    lastName: ownerUser.lastName,
+  };
+
+  const spotResponse = {};
+
+  spotResponse.id = spot.id;
+  spotResponse.ownerId = spot.ownerId;
+  spotResponse.address = spot.address;
+  spotResponse.city = spot.city;
+  spotResponse.state = spot.state;
+  spotResponse.country = spot.country;
+  spotResponse.lat = spot.lat;
+  spotResponse.lng = spot.lng;
+  spotResponse.name = spot.name;
+  spotResponse.description = spot.description;
+  spotResponse.price = spot.price;
+  spotResponse.createdAt = spot.createdAt;
+  spotResponse.updatedAt = spot.updatedAt;
+  spotResponse.numReviews = await calculateNumReviews(spot.id);
+  spotResponse.avgStarRating = spot.avgStarRating;
+  spotResponse.SpotImages = spot.SpotImages;
+  spotResponse.Owner = spot.Owner;
+
+  return res.status(200).json(spotResponse);
+  
 });
 
 router.get('/', async (req, res) => {
