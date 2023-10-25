@@ -1,5 +1,6 @@
 const express = require('express');
 const { Spot, Review, SpotImage, sequelize } = require('../../db/models');
+const { requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
 
@@ -26,7 +27,48 @@ const calculateAvgRating = async spotId => {
     return parseFloat(avgRating.toFixed(2));
 };
 
-router.get('/current', async (req, res) => {
+router.get('/current', requireAuth, async (req, res) => {
+  const userId = req.user.id;
+  const spots = await Spot.findAll({
+    where: {
+      ownerId: userId,
+    }
+  });
+
+  for (let spot of spots) {
+    spot.avgRating = await calculateAvgRating(spot.id);
+
+    const previewImg = await SpotImage.findOne({
+      where: {
+        spotId: spot.id,
+        preview: true,
+      },
+    });
+
+    if (previewImg) {
+      spot.previewImage = previewImg.url;
+    }
+  }
+
+  const responseSpots = spots.map(spot => ({
+    id: spot.id,
+    ownerId: spot.ownerId,
+    address: spot.address,
+    city: spot.city,
+    state: spot.state,
+    country: spot.country,
+    lat: spot.lat,
+    lng: spot.lng,
+    name: spot.name,
+    description: spot.description,
+    price: spot.price,
+    createdAt: spot.createdAt,
+    updatedAt: spot.updatedAt,
+    avgRating: spot.avgRating, 
+    previewImage: spot.previewImage, 
+  }));
+
+  res.status(200).json({ Spots: responseSpots });
 
 });
 
