@@ -1,6 +1,8 @@
 const express = require('express');
 const { Spot, Review, SpotImage, User, sequelize } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
+const { handleValidationErrors } = require('../../utils/validation');
+const { check } = require('express-validator');
 
 const router = express.Router();
 
@@ -35,6 +37,44 @@ const calculateNumReviews = async spotId => {
   });
   return reviews.length;
 };
+
+const validateSpot = [
+  check("address")
+      .exists({ checkFalsy: true })
+      .withMessage("Street address is required"),
+  check("city")
+      .exists({ checkFalsy: true })
+      .withMessage("City is required"),
+  check("state")
+      .exists({ checkFalsy: true })
+      .withMessage("State is required"),
+  check("country")
+      .exists({ checkFalsy: true })
+      .withMessage("Country is required"),
+  check("lat")
+      .exists({ checkFalsy: true })
+      .isDecimal()
+      .custom(value => value >= -90 && value <= 90)
+      .withMessage("Latitude is not valid"),
+  check("lng")
+      .exists({ checkFalsy: true })
+      .isDecimal()
+      .custom(value => value >= -180 && value <= 180)
+      .withMessage("Longitude is not valid"),
+  check("name")
+      .exists({ checkFalsy: true })
+      .isLength({ max: 50 })
+      .withMessage("Name must be less than 50 characters"),
+  check("description")
+      .exists({ checkFalsy: true })
+      .withMessage("Description is required"),
+  check("price")
+      .exists({ checkFalsy: true })
+      .custom(
+          checkPriceIsPositive = value => value > 0)
+      .withMessage("Price per day is required"),
+  handleValidationErrors
+]
 
 router.get('/current', requireAuth, async (req, res) => {
   const userId = req.user.id;
@@ -167,6 +207,31 @@ router.get('/', async (req, res) => {
 
   res.status(200).json({ Spots: responseSpots });
 
+});
+
+router.post('/', requireAuth, validateSpot, async (req, res) => {
+  const { address, city, state, country, lat, lng, name, description, price } = req.body;
+  const ownerId = req.user.id;
+  const newSpot = await Spot.create({
+    ownerId, address, city, state, country, lat, lng, name, description, price
+  });
+  
+  const returnSpot = {};
+  returnSpot.id = newSpot.id;
+  returnSpot.ownerId = newSpot.ownerId;
+  returnSpot.address = newSpot.address;
+  returnSpot.city = newSpot.city;
+  returnSpot.state = newSpot.state;
+  returnSpot.country = newSpot.country;
+  returnSpot.lat = newSpot.lat;
+  returnSpot.lng = newSpot.lng;
+  returnSpot.name = newSpot.name;
+  returnSpot.description = newSpot.description;
+  returnSpot.price = newSpot.price;
+  returnSpot.createdAt = newSpot.createdAt;
+  returnSpot.updatedAt = newSpot.updatedAt;
+
+  return res.status(201).json(returnSpot);
 });
 
 
