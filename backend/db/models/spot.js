@@ -53,12 +53,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'Spot',
-    defaultScope: {
-      attributes: {
-        exclude: ["lat", "lng", "createdAt", "updatedAt"]
-      }
-    }
+    modelName: 'Spot'
   });
   return Spot;
 };

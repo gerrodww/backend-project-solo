@@ -13,22 +13,22 @@ module.exports = {
       {
         spotId: 1,
         url: "https://media.istockphoto.com/id/172927436/photo/cast-iron-buildings-in-soho-new-york-city.jpg?s=2048x2048&w=is&k=20&c=TPTtxLWShQvnUHETiy1S5jpcNsvNC03S8vO9qtFg-A8=",
-        preview: false,
+        preview: true,
       },
       {
         spotId: 2,
         url: "https://www.flickr.com/photos/wwarby/34701989990/",
-        preview: false,
+        preview: true,
       },
       {
         spotId: 3,
         url: "https://www.flickr.com/photos/wallyg/6644520555/",
-        preview: false,
+        preview: true,
       },
       {
         spotId: 4,
         url: "https://www.flickr.com/photos/marco_capitanio/8821737566/",
-        preview: false,
+        preview: true,
       },
       {
         spotId: 5,
