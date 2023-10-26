@@ -144,6 +144,46 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
   return res.status(200).json(imgRes);
 });
 
+router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
+  const spot = await Spot.findByPk(req.params.spotId);
+
+  if (!spot) return res.status(404).json({ message: "Spot couldn't be found"});
+
+  const spotOwnerId = spot.ownerId;
+  if (req.user.id !== spotOwnerId) return res.status(403).json({ message: "Forbidden"});
+
+  const { address, city, state, country, lat, lng, name, description, price } = req.body;
+
+  spot.address = address || spot.address;
+  spot.city = city || spot.city;
+  spot.state = state || spot.state;
+  spot.country = country || spot.country;
+  spot.lat = lat || spot.lat;
+  spot.lng = lng || spot.lng;
+  spot.name = name || spot.name;
+  spot.description = description || spot.description;
+  spot.price = price || spot.price;
+  
+  await spot.save();
+
+  const returnSpot = {};
+  returnSpot.id = spot.id;
+  returnSpot.ownerId = spot.ownerId;
+  returnSpot.address = spot.address;
+  returnSpot.city = spot.city;
+  returnSpot.state = spot.state;
+  returnSpot.country = spot.country;
+  returnSpot.lat = spot.lat;
+  returnSpot.lng = spot.lng;
+  returnSpot.name = spot.name;
+  returnSpot.description = spot.description;
+  returnSpot.price = spot.price;
+  returnSpot.createdAt = spot.createdAt;
+  returnSpot.updatedAt = spot.updatedAt;
+
+  return res.status(200).json(returnSpot);
+});
+
 router.get('/:spotId', async(req, res) => {
   const spot = await Spot.findOne({where: { id: req.params.spotId },
     attributes: { exclude: ["previewImage"] }
