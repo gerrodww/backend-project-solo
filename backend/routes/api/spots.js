@@ -1,5 +1,5 @@
 const express = require('express');
-const { Spot, Review, SpotImage, User, sequelize } = require('../../db/models');
+const { Spot, Review, SpotImage, User, Booking, ReviewImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 const { check } = require('express-validator');
@@ -182,6 +182,39 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
   returnSpot.updatedAt = spot.updatedAt;
 
   return res.status(200).json(returnSpot);
+});
+
+router.delete('/:spotId', requireAuth, async (req, res) => {
+  const target = await Spot.findByPk(req.params.spotId);
+
+  if (!target) return res.status(404).json({ message: "Spot couldn't be found" });
+
+  const spotOwnerId = target.ownerId;
+  if (req.user.id !== spotOwnerId) return res.status(403).json({ message: "Forbidden" });
+
+  const bookings = await Booking.findAll({ where: { spotId: target.id } });
+  const reviews = await Review.findAll({ where: { spotId: target.id } });
+  const spotImages = await SpotImage.findAll({ where: { spotId: target.id } });
+
+  // Delete associated bookings
+  await Promise.all(bookings.map(async (booking) => await booking.destroy()));
+
+  // Delete associated reviews
+  await Promise.all(reviews.map(async (review) => {
+    const reviewImages = await ReviewImage.findAll({ where: { reviewId: review.id } });
+
+    // Delete associated review images
+    await Promise.all(reviewImages.map(async (reviewImage) => await reviewImage.destroy()));
+
+    await review.destroy();
+  }));
+
+  // Delete associated spot images
+  await Promise.all(spotImages.map(async (image) => await image.destroy()));
+
+  await target.destroy();
+
+  return res.status(200).json({ message: "Successfully deleted" });
 });
 
 router.get('/:spotId', async(req, res) => {
