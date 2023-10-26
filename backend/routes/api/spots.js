@@ -121,6 +121,29 @@ router.get('/current', requireAuth, async (req, res) => {
 
 });
 
+router.post('/:spotId/images', requireAuth, async (req, res) => {
+  const spot = await Spot.findByPk(req.params.spotId);
+  if (!spot) return res.status(404).json({ message: "Spot couldn't be found"});
+  const spotOwnerId = spot.ownerId;
+  if (req.user.id !== spotOwnerId) return res.status(403).json({ message: "Forbidden"});
+
+  const { url, preview } = req.body;
+  const spotId = req.params.spotId;
+
+  const newImage = await SpotImage.create({
+    spotId: spotId,
+    url: url,
+    preview: preview
+  });
+
+  const imgRes = {};
+  imgRes.id = newImage.id;
+  imgRes.url = newImage.url;
+  imgRes.preview = newImage.preview;
+
+  return res.status(200).json(imgRes);
+});
+
 router.get('/:spotId', async(req, res) => {
   const spot = await Spot.findOne({where: { id: req.params.spotId },
     attributes: { exclude: ["previewImage"] }
