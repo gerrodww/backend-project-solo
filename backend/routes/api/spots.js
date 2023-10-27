@@ -3,6 +3,8 @@ const { Spot, Review, SpotImage, User, Booking, ReviewImage } = require('../../d
 const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 const { check } = require('express-validator');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 const router = express.Router();
 
@@ -200,9 +202,13 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 
     return res.status(200).json({ Bookings });
   }
-})
+});
 
-router.get('/:spotId/reviews', async(req, res) => {
+router.post("/:spotId/bookings", requireAuth, async (req, res, next) => {
+//**************************** */
+});
+
+router.get('/:spotId/reviews', async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId);
   if (!spot) return res.status(404).json({ "message": "Spot couldn't be found"});
 
