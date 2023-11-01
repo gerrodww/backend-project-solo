@@ -11,55 +11,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await Spot.bulkCreate([
       {
-        ownerId: 7,
-        address: "123 Main St",
-        city: "New York",
-        state: "NY",
-        country: "USA",
-        lat: 40.7128,
-        lng: -74.0060,
-        name: "Cozy Loft",
-        description: "A charming loft in the heart of the city.",
-        price: 640.50
-      },
-      {
-        ownerId: 7,
-        address: "456 Elm St",
-        city: "Los Angeles",
-        state: "CA",
-        country: "USA",
-        lat: 34.0522,
-        lng: -118.2437,
-        name: "Sunny Villa",
-        description: "Spacious villa with a beautiful garden.",
-        price: 400.99
-      },
-      {
-        ownerId: 7,
-        address: "789 Oak St",
-        city: "Miami",
-        state: "FL",
-        country: "USA",
-        lat: 25.7617,
-        lng: -80.1918,
-        name: "Beachfront Condo",
-        description: "Enjoy ocean views from this modern condo.",
-        price: 900.99
-      },
-      {
-        ownerId: 8,
-        address: "505 Redwood St",
-        city: "Tokyo",
-        state: "Tokyo",
-        country: "Japan",
-        lat: 25.682839,
-        lng: 139.759455,
-        name: "Traditional Ryokan",
-        description: "Experience Japanese hospitality in a ryokan.",
-        price: 400.00
-      },
-      {
-        ownerId: 8,
+        ownerId: 1,
         address: "42 Wallaby Way",
         city: "Sydney",
         state: "Sydney",
@@ -71,7 +23,7 @@ module.exports = {
         price: 205.50
       },
       {
-        ownerId: 8,
+        ownerId: 1,
         address: "7 Cobble Dr",
         city: "Velaris",
         state: "Night Court",
@@ -83,7 +35,7 @@ module.exports = {
         price: 2500.99
       },
       {
-        ownerId: 9,
+        ownerId: 1,
         address: "15 Hobbiton Lane",
         city: "The Shire",
         state: "Green Hills",
@@ -95,7 +47,7 @@ module.exports = {
         price: 75.00
       },
       {
-        ownerId: 9,
+        ownerId: 1,
         address: "13 Dungeon Rd",
         city: "Cryptville",
         state: "Darkness",
@@ -107,7 +59,7 @@ module.exports = {
         price: 999.99
       },
       {
-        ownerId: 9,
+        ownerId: 1,
         address: "7 Stone Cave Dr",
         city: "Mystictown",
         state: "Mystica",
@@ -126,10 +78,6 @@ module.exports = {
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
       name: { [Op.in]: [
-        "Cozy Loft",
-        "Sunny Villa",
-        "Beachfront Condo",
-        "Traditional Ryokan",
         "P. Sherman",
         "Starfall View Loft",
         "Hobbit Haven",

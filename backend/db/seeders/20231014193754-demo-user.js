@@ -12,21 +12,14 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await User.bulkCreate([
       {
-        email: 'demo@user.io',
-        username: 'Demo-lition',
-        hashedPassword: bcrypt.hashSync('password'),
-        firstName: "Demo",
-        lastName: "User"
-      },
-      {
-        email: 'user1@user.io',
+        email: 'goldenson@user.io',
         username: 'Reaper',
         hashedPassword: bcrypt.hashSync('password2'),
         firstName: "Darrow",
         lastName: "O'Lykkos"
       },
       {
-        email: 'user2@user.io',
+        email: 'northernwolf@user.io',
         username: 'WolfoftheNorth',
         hashedPassword: bcrypt.hashSync('password3'),
         firstName: "Aedion",
@@ -46,34 +39,6 @@ module.exports = {
         firstName: "Legolas",
         lastName: "Greenleaf"
       },
-      {
-        email: 'vampireslayer@user.io',
-        username: 'Goldilocks',
-        hashedPassword: bcrypt.hashSync('password6'),
-        firstName: "Buffy",
-        lastName: "Summers"
-      },
-      {
-        email: 'hermionejean@user.io',
-        username: 'Hermy',
-        hashedPassword: bcrypt.hashSync('password7'),
-        firstName: "Hermione",
-        lastName: "Granger"
-      },
-      {
-        email: 'highqueen@user.io',
-        username: 'QueenJude',
-        hashedPassword: bcrypt.hashSync('password8'),
-        firstName: "Jude",
-        lastName: "Duarte"
-      },
-      {
-        email: 'gerrodww@user.io',
-        username: 'gerrodww',
-        hashedPassword: bcrypt.hashSync('password9'),
-        firstName: "Gerrod",
-        lastName: "White"
-      },
     ], { validate: true });
   },
 
@@ -81,8 +46,7 @@ module.exports = {
     options.tableName = 'Users';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      username: { [Op.in]: ['Demo-lition', 'Reaper', 'WolfoftheNorth', 'ElfStone', 'PrinceoftheWood',
-      'Goldilocks', 'Hermy', 'QueenJude', 'gerrodww'] }
+      username: { [Op.in]: ['Reaper', 'WolfoftheNorth', 'ElfStone', 'PrinceoftheWood',] }
     }, {});
   }
 };
