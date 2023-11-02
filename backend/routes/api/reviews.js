@@ -103,7 +103,7 @@ router.put('/:reviewId', requireAuth, validateReview, async (req, res) => {
 
   await targetReview.save();
 
-  return res.status(200).json({ targetReview });
+  return res.status(200).json(targetReview);
 });
 
 router.delete('/:reviewId', requireAuth, async (req, res) => {
