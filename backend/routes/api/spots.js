@@ -40,43 +40,95 @@ const calculateNumReviews = async spotId => {
   return reviews.length;
 };
 
+const validQuery = [
+  check("page")
+    .optional()
+    .isInt()
+    .withMessage("Page must be greater than or equal to 1")
+    .custom(value => ((value >= 1 ) && (value <= 10)))
+    .withMessage("Page must be greater than or equal to 1"),
+  check("size")
+    .optional()
+    .isInt()
+    .withMessage("Page must be greater than or equal to 1")
+    .custom(value => ((value >= 1 ) && (value <= 20)))
+    .withMessage("Size must be greater than or equal to 1"),
+  check("minLat")
+    .optional()
+    .isDecimal()
+    .withMessage("Minimum latitude is invalid")
+    .custom(value => ((value >= -90) && (value <= 90)))
+    .withMessage("Minimum latitude is invalid"),
+  check("maxLat")
+    .optional()
+    .isDecimal()
+    .withMessage("Maximum latitude is invalid")
+    .custom(value => ((value >= -90) && (value <= 90)))
+    .withMessage("Maximum latitude is invalid"),
+  check("minLng")
+    .optional()
+    .isDecimal()
+    .withMessage("Minimum longitude is invalid")
+    .custom(value => ((value >= -180) && (value <= 180)))
+    .withMessage("Minimum longitude is invalid"),
+  check("maxLng")
+    .optional()
+    .isDecimal()
+    .withMessage("Maximum longitude is invalid")
+    .custom(value => ((value >= -180) && (value <= 180)))
+    .withMessage("Maximum longitude is invalid"),
+  check("minPrice")
+    .optional()
+    .isDecimal()
+    .withMessage("Maximum price must be greater than or equal to 0")
+    .custom(value => (value >= 0))
+    .withMessage("Minimum price must be greater than or equal to 0"),
+  check("maxPrice")
+    .optional()
+    .isDecimal()
+    .withMessage("Maximum price must be greater than or equal to 0")
+    .custom(value => value >= 0)
+    .withMessage("Maximum price must be greater than or equal to 0"),
+  handleValidationErrors
+];
+
 const validateSpot = [
   check("address")
-      .exists({ checkFalsy: true })
-      .withMessage("Street address is required"),
+    .exists({ checkFalsy: true })
+    .withMessage("Street address is required"),
   check("city")
-      .exists({ checkFalsy: true })
-      .withMessage("City is required"),
+    .exists({ checkFalsy: true })
+    .withMessage("City is required"),
   check("state")
-      .exists({ checkFalsy: true })
-      .withMessage("State is required"),
+    .exists({ checkFalsy: true })
+    .withMessage("State is required"),
   check("country")
-      .exists({ checkFalsy: true })
-      .withMessage("Country is required"),
+    .exists({ checkFalsy: true })
+    .withMessage("Country is required"),
   check("lat")
-      .exists({ checkFalsy: true })
-      .isDecimal()
-      .custom(value => value >= -90 && value <= 90)
-      .withMessage("Latitude is not valid"),
+    .exists({ checkFalsy: true })
+    .isDecimal()
+    .custom(value => value >= -90 && value <= 90)
+    .withMessage("Latitude is not valid"),
   check("lng")
-      .exists({ checkFalsy: true })
-      .isDecimal()
-      .custom(value => value >= -180 && value <= 180)
-      .withMessage("Longitude is not valid"),
+    .exists({ checkFalsy: true })
+    .isDecimal()
+    .custom(value => value >= -180 && value <= 180)
+    .withMessage("Longitude is not valid"),
   check("name")
-      .exists({ checkFalsy: true })
-      .isLength({ max: 50 })
-      .withMessage("Name must be less than 50 characters"),
+    .exists({ checkFalsy: true })
+    .isLength({ max: 50 })
+    .withMessage("Name must be less than 50 characters"),
   check("description")
-      .exists({ checkFalsy: true })
-      .withMessage("Description is required"),
+    .exists({ checkFalsy: true })
+    .withMessage("Description is required"),
   check("price")
-      .exists({ checkFalsy: true })
-      .custom(
-          checkPriceIsPositive = value => value > 0)
+    .exists({ checkFalsy: true })
+    .custom(
+      checkPriceIsPositive = value => value > 0)
       .withMessage("Price per day is required"),
   handleValidationErrors
-]
+];
 
 const validateReview = [
   check("review")
@@ -449,8 +501,40 @@ router.get('/:spotId', async(req, res) => {
   
 });
 
-router.get('/', async (req, res) => {
-  const spots = await Spot.findAll();
+router.get('/', validQuery, async (req, res) => {
+  const { page = 1, size = 20, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+
+  const filterOptions = {
+    where: {},
+    limit: size,
+    offset: (page - 1) * size,
+  };
+
+  if (minLat && maxLat) {
+    filterOptions.where.lat = { [Op.between]: [minLat, maxLat] };
+  } else if (minLat) {
+    filterOptions.where.lat =  { [Op.gte]: minLat }
+  } else if (maxLat) {
+    filterOptions.where.lat = { [Op.lte]: maxLat }
+  }
+
+  if (minLng && maxLng) {
+    filterOptions.where.lng = { [Op.between]: [minLng, maxLng] };
+  } else if (minLng) {
+    filterOptions.where.lng =  { [Op.gte]: minLng }
+  } else if (maxLng) {
+    filterOptions.where.lng = { [Op.lte]: maxLng }
+  }
+
+  if (minPrice && maxPrice) {
+    filterOptions.where.price = { [Op.between]: [minPrice, maxPrice] };
+  } else if (minPrice) {
+    filterOptions.where.price =  { [Op.gte]: minPrice }
+  } else if (maxPrice) {
+    filterOptions.where.price = { [Op.lte]: maxPrice }
+  }
+
+  const spots = await Spot.findAll(filterOptions);
 
   for (let spot of spots) {
     spot.avgRating = await calculateAvgRating(spot.id);
@@ -485,8 +569,11 @@ router.get('/', async (req, res) => {
     previewImage: spot.previewImage, 
   }));
 
-  res.status(200).json({ Spots: responseSpots });
-
+  res.status(200).json({ 
+    Spots: responseSpots,
+    page: page,
+    size: size,
+  });
 });
 
 router.post('/', requireAuth, validateSpot, async (req, res) => {
