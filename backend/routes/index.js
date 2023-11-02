@@ -11,6 +11,10 @@ router.get("/api/csrf/restore", (req, res) => {
   });
 });
 
+router.get('/', async (req, res) => {
+return res.status(200).json({ "message": "Hello homepage" });
+});
+
 router.use('/api', apiRouter);
 
 
