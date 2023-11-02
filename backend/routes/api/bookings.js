@@ -59,19 +59,14 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
 
   if (startDate >= endDate) {
     const err = new Error("Bad request");
-    err.title = "Body Validation Error"
-    err.errors = { "endDate": "endDate cannot be on or before startDate" }
+    err.errors = { "endDate": "endDate cannot come before startDate" }
     err.status = 400;
     return next(err);
   }
 
   const currentDate = new Date();
   if ((new Date(startDate) || new Date (endDate)) < currentDate) {
-    const err = new Error("Bad request");
-    err.title = "Body Validation Error"
-    err.errors = { "message": "Dates cannot be in the past" }
-    err.status = 400;
-    return next(err);
+    return res.status(403).json({ "message": "Past bookings can't be modified" })
   }
 
   const existingBookings = await Booking.findAll({
