@@ -2,7 +2,7 @@
   "dependencies": {
     "express-validator": "^7.0.1"
   },
-  "name": "backend-project-solo",
+  "name": "scarebnb",
   "description": "## Database Schema Design",
   "version": "1.0.0",
   "main": "index.js",
