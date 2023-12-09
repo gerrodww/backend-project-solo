@@ -56,21 +56,3 @@ p {
   color: #ff6b6b;
   margin-top: 8px;
 }
-
-/* Spooky Halloween Theme */
-body {
-  background-image: url('halloween-background.jpg');
-  background-size: cover;
-}
-
-form {
-  border: 2px solid #ff6b6b;
-}
-
-button {
-  background-color: #793535;
-}
-
-button:hover {
-  background-color: #5a2e2e;
-}
