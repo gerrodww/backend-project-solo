@@ -4,10 +4,10 @@ const SET_USER = 'session/setUser';
 const REMOVE_USER ='session/removeUser';
 
 //Action Creators
-const setUser = (user) => {
+const setUser = (userData) => {
   return {
     type: SET_USER,
-    payload: user
+    userData
   };
 };
 
@@ -17,7 +17,9 @@ const removeUser = () => {
   };
 };
 
-//Thunk Action Creators
+//Thunks
+
+//login
 export const login = (user) => async (dispatch) => {
   const { credential, password } = user;
 
@@ -32,7 +34,7 @@ export const login = (user) => async (dispatch) => {
   return res;
 };
 
-//logout? **
+//logout
 export const logout = () => async (dispatch) => {
   const res = await csrfFetch("/api/session", {
     method: "DELETE",
@@ -52,6 +54,25 @@ export const restoreUser = () => async (dispatch) => {
   return response;
 };
 
+//signup
+export const signup = (user) => async (dispatch) => {
+  const { username, firstName, lastName, email, password} = user;
+  const res = await csrfFetch('/api/users', {
+    method: "POST",
+    body: JSON.stringify({
+      username,
+      firstName,
+      lastName,
+      email,
+      password
+    })
+  });
+  
+  const data = await res.json();
+  dispatch(setUser(data.user));
+  return res;
+}
+
 //Initial State
 const initialState = {
   user: null
@@ -61,7 +82,7 @@ const initialState = {
 const sessionReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER:
-      return {...state, user: action.payload};
+      return {...state, user: action.userData};
 
     case REMOVE_USER:
       return {...state, user: null};
