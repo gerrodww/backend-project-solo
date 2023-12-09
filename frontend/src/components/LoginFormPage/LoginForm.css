@@ -1,0 +1,76 @@
+body {
+  background-color: #1c1c1c;
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+form {
+  background-color: #333;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+  text-align: center;
+  color: #ffa66b;
+}
+
+label {
+  display: block;
+  margin: 10px 0;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  box-sizing: border-box;
+  background-color: #1c1c1c;
+  color: #fff;
+  border: 1px solid #ff6b6b;
+  border-radius: 4px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #ff6b6b;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #e64a4a;
+}
+
+p {
+  color: #ff6b6b;
+  margin-top: 8px;
+}
+
+/* Spooky Halloween Theme */
+body {
+  background-image: url('halloween-background.jpg');
+  background-size: cover;
+}
+
+form {
+  border: 2px solid #ff6b6b;
+}
+
+button {
+  background-color: #793535;
+}
+
+button:hover {
+  background-color: #5a2e2e;
+}
