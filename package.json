@@ -17,13 +17,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gerrodww/backend-project-solo.git"
+    "url": "git+https://github.com/gerrodww/scarebnb.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gerrodww/backend-project-solo/issues"
+    "url": "https://github.com/gerrodww/scarebnb/issues"
   },
-  "homepage": "https://github.com/gerrodww/backend-project-solo#readme"
+  "homepage": "https://github.com/gerrodww/scarebnb#readme"
 }
