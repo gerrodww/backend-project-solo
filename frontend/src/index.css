@@ -19,3 +19,9 @@ h1 {
 button:hover {
   background-color: #949494;
 }
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}

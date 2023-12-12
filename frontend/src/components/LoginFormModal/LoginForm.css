@@ -32,4 +32,9 @@ button.login {
   cursor: pointer;
 }
 
+p {
+  text-align: center;
+  color: red;
+}
+
 

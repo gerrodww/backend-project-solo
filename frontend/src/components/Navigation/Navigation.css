@@ -2,10 +2,6 @@
   display: none;
 }
 
-.nav-header {
-  
-}
-
 .nav-links {
   display: flex;
   justify-content: space-between;
