@@ -1,11 +1,21 @@
 /* TODO: Add sitewide styles */
 body {
   background-color: #232020;
-  color: #fff;
+  color: rgb(182, 91, 30);
   font-family: 'Arial', sans-serif;
 }
 
+ul {
+  list-style: none;
+}
+
+
 h1 {
   text-align: center;
-  color: rgb(255, 166, 107)
+  color: rgb(182, 91, 30);
+  position: static;
+}
+
+button:hover {
+  background-color: #949494;
 }

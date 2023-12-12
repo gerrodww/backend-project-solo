@@ -29,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <h1>Welcome!</h1>
+      },
+      {
+        path: '*',
+        element: <h1>This is not the droid you are looking for</h1>
       }
     ]
   }

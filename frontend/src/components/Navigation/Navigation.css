@@ -2,4 +2,45 @@
   display: none;
 }
 
+.nav-header {
+  
+}
 
+.nav-links {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 20px 0px 20px;
+  height: 50;
+  align-items: center;
+}
+
+.menu-button {
+  width: 100px;
+  height: 30px;
+  background-color: rgb(255, 166, 107);
+  color: #000000;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+}
+
+.drop-links {
+  width: auto;
+}
+
+.profile-dropdown {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  padding: 0;
+}
+
+.home-link {
+  color: rgb(255, 166, 107);
+}
+
+NavLink:visited {
+  text-decoration: none;
+}

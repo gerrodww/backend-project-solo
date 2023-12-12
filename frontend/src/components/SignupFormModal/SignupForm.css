@@ -3,5 +3,32 @@ form {
   padding: 20px;
   border-radius: 10px;
   width: 300px;
-  box-shadow: 0 0 10px rgb(255, 166, 107);
+  box-shadow: 0 0 10px rgb(182, 91, 30);
 }
+
+label {
+  display: block;
+  margin: 10px 0;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  box-sizing: border-box;
+  background-color: #232020;
+  color: #fff;
+  border: 1px solid rgb(182, 91, 30);
+  border-radius: 4px;
+}
+
+button.login {
+  width: 100%;
+  padding: 10px;
+  background-color: rgb(182, 91, 30);
+  color: #000000;
+  border: 1px solid rgb(182, 91, 30);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
