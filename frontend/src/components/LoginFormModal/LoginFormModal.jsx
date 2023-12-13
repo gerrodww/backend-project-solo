@@ -21,7 +21,6 @@ function LoginFormModal() {
         if (data && data.message) {
           setErrors({credential: data.message});
         }
-        console.log(errors, '**************errors')
       });
   };
 
