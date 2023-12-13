@@ -32,9 +32,14 @@ button.login {
   cursor: pointer;
 }
 
-p {
+button.login:disabled {
+  background-color: rgb(255, 107, 107, .7);
+  opacity: 0.5;
+}
+
+.error-p {
   text-align: center;
-  color: red;
+  color: rgba(255, 107, 107, 0.7);
 }
 
 

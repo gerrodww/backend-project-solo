@@ -25,6 +25,7 @@ function LoginFormModal() {
       });
   };
 
+  const isFormValid = credential.length >= 4 && password.length >= 6;
 
   return (
     <>
@@ -50,9 +51,9 @@ function LoginFormModal() {
           />
         </label>
 
-        {errors.credential && (<p>{errors.credential}</p>)} 
+        {errors.credential && (<p className='error-p'>{errors.credential}</p>)} 
 
-        <button type="submit" className='login'>Log In</button>
+        <button type="submit" className='login' disabled={!isFormValid}>Log In</button>
       </form>
     </>
   );

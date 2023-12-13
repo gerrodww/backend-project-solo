@@ -11,7 +11,7 @@ function Navigation({ isLoaded }) {
       <div> 
         <ul className='nav-links'>
           <li className='home-link'>
-            <NavLink exact to="/">HOME</NavLink>
+            <NavLink exact to="/"><img src='/public/logo_size.jpg'/></NavLink>
           </li>
           {isLoaded && (
             <li className='drop-links'>

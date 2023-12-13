@@ -34,12 +34,17 @@ function SignupFormModal() {
           if (data?.errors) {
             setErrors(data.errors);
           }
+          console.log(errors)
         });
     }
     return setErrors({
       confirmPassword: "Confirm Password field must be the same as the Password field"
     });
   };
+
+  const isFormValid = email.length >= 1 && username.length >= 4 && 
+    firstName.length >= 1 && lastName.length >= 1 && 
+    password.length >= 6 && confirmPassword.length >= 6
 
   return (
     <>
@@ -54,7 +59,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        {errors.email && <p className='error-p'>{errors.email}</p>}
         <label>
           Username
           <input
@@ -64,7 +69,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.username && <p>{errors.username}</p>}
+        {errors.username && <p className='error-p'>{errors.username}</p>}
         <label>
           First Name
           <input
@@ -74,7 +79,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.firstName && <p>{errors.firstName}</p>}
+        {errors.firstName && <p className='error-p'>{errors.firstName}</p>}
         <label>
           Last Name
           <input
@@ -84,7 +89,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.lastName && <p>{errors.lastName}</p>}
+        {errors.lastName && <p className='error-p'>{errors.lastName}</p>}
         <label>
           Password
           <input
@@ -94,7 +99,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
+        {errors.password && <p className='error-p'>{errors.password}</p>}
         <label>
           Confirm Password
           <input
@@ -105,12 +110,14 @@ function SignupFormModal() {
           />
         </label>
         {errors.confirmPassword && (
-          <p>{errors.confirmPassword}</p>
+          <p className='error-p'>{errors.confirmPassword}</p>
         )}
-        <button type="submit" className='login'>Sign Up</button>
+        <button type="submit" className='login' disabled={!isFormValid}>Sign Up</button>
       </form>
     </>
   );
 }
 
 export default SignupFormModal;
+
+
