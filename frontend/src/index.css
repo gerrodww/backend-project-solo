@@ -25,3 +25,7 @@ button:hover {
   font-size: 14px;
   margin-top: 5px;
 }
+
+input::placeholder {
+  color: rgb(182, 91, 30);;
+}

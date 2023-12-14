@@ -1,0 +1,50 @@
+.spot-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 16px;
+  max-width: 1600px;
+  margin-left: 200px;
+  margin-right: 200px;
+}
+
+.spot-tile {
+  height: 405px;
+  width: 325px;
+  display: grid;
+  grid-template-rows: 1fr 40px 40px;
+  border: 1px solid rgb(255, 166, 107);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 50px;
+}
+
+.spot-image > img {
+  width: 325px;
+  height: 325px;
+  background-size: cover;
+  background-position: center;
+}
+
+.spot-details {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.city-state {
+  font-size: 18px;
+  color: rgb(255, 166, 107);
+}
+
+.star-rating {
+  font-size: 18px;
+  color: rgb(255, 166, 107); 
+}
+
+.price-per-night {
+  font-size: 25px;
+  color: rgb(196, 107, 47); 
+  padding-left: 16px;
+  padding-bottom: 8px;
+}

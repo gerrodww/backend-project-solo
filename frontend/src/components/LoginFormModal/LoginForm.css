@@ -42,4 +42,15 @@ button.login:disabled {
   color: rgba(255, 107, 107, 0.7);
 }
 
+button.demo {
+  width: 100%;
+  padding: 10px;
+  background-color: rgb(255, 166, 107);
+  color: #000000;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
 
