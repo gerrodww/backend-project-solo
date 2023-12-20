@@ -14,9 +14,16 @@ function Navigation({ isLoaded }) {
             <NavLink exact to="/"><img src='/logo_size.jpg'/></NavLink>
           </li>
           {isLoaded && (
+              <>
+              {sessionUser && (
+                <li className='drop-links'>
+                  <NavLink exact to='/spots/new'><button className='create-spot' >Create a Spot</button></NavLink>
+                </li>
+              )}
             <li className='drop-links'>
               <ProfileButton user={sessionUser} />
             </li>
+            </>
           )}
         </ul>
       </div>

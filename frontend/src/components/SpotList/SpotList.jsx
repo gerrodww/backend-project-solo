@@ -14,7 +14,7 @@ function SpotList() {
   }, [dispatch])
 
   function goToSpot(spotId) {
-    navigate(`/${spotId}`);
+    navigate(`/spots/${spotId}`);
   }
 
   return (
