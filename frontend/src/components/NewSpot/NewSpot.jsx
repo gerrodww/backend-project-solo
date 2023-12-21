@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { createSpot } from "../../store/spots";
+import { spotImageThunk } from "../../store/images";
 
 function NewSpot() {
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ function NewSpot() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('')
+  const [imageUrl, setImageUrl] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +28,8 @@ function NewSpot() {
       price
     };
 
-    dispatch(createSpot(spotData))
+    dispatch(createSpot(spotData));
+    // dispatch(spotImageThunk({imageUrl, spotId}));
   }
 
   return (
@@ -110,7 +113,9 @@ function NewSpot() {
         </div>
 
         <label htmlFor='image'>image</label>
-        <input type="text" id="image" name="image"></input>
+        <input type="text" id="image" name="image" 
+        onChange={(e) => setImageUrl(e.target.value)}
+        placeholder="Preview Image"></input>
         <input type="text" id="image" name="image"></input>
         <input type="text" id="image" name="image"></input>
         <input type="text" id="image" name="image"></input>

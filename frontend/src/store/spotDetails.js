@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 
 export const LOAD_SPOT_DETAILS = 'spotDetails/LOAD_SPOT_DETAILS'
 export const LOAD_SPOT_REVIEWS = 'spotDetails/LOAD_SPOT_REVIEWS'
+export const POST_SPOT_REVIEW = 'spotDetails/POST_SPOT_REVIEW'
 
 export const loadSpotDetails = (spotDetails) => ({
   type: LOAD_SPOT_DETAILS,
@@ -11,6 +12,11 @@ export const loadSpotDetails = (spotDetails) => ({
 export const loadSpotReviews = (spotReviews) => ({
   type: LOAD_SPOT_REVIEWS,
   spotReviews
+});
+
+export const postSpotReview = (review) => ({
+  type: POST_SPOT_REVIEW,
+  review
 });
 
 export const fetchSpotDetails = (spotId) => async (dispatch) => {
@@ -31,6 +37,17 @@ export const fetchSpotReviews = (spotId) => async (dispatch) => {
   }
 }
 
+export const postReviewThunk = ({ review, stars, spotId }) => async (dispatch) => {
+  const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+    method: "POST",
+    body: JSON.stringify({review, stars})
+  });
+
+  const data = await res.json();
+  dispatch(postSpotReview(data))
+  return res;
+}
+
 const initialState = {
   spotDetails: null
 };
@@ -48,6 +65,12 @@ const spotDetailsReducer = (state = initialState, action) => {
       return {
         ...state,
         spotReviews: action.spotReviews
+      }
+
+    case POST_SPOT_REVIEW:
+      return {
+        ...state,
+        review: action.review
       }
 
     default:

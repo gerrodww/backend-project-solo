@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchSpotDetails, fetchSpotReviews } from "../../store/spotDetails";
+import OpenModalButton from "../OpenModalButton";
+import ReviewModal from "../ReviewModal";
 
 function SpotDetails() {
   const dispatch = useDispatch();
@@ -10,15 +12,10 @@ function SpotDetails() {
   const spotReviews = useSelector((state) => state.spotDetails.spotReviews);
   const parsedId = parseInt(spotId, 10);
 
-  // const { name, description, SpotImages, Owner, city, state, country, 
-  //         price, avgStarRating, numReviews } = spotDetails;
-
   useEffect(() => {
     dispatch(fetchSpotDetails(parsedId));
     dispatch(fetchSpotReviews(parsedId));
   }, [dispatch, parsedId]);
-
-  console.log(spotReviews, '****spot reviews')
 
   function reserveClick() {
     window.alert('Feature coming soon!');
@@ -40,7 +37,7 @@ function SpotDetails() {
     <section className="overview">
       <h1>{spotDetails.name}</h1>
       <div className="main-image">
-        <img src={spotDetails.SpotImages[0].url} alt={spotDetails.SpotImages.name} />
+        <img src={spotDetails.SpotImages[0].url} alt={spotDetails.SpotImages.name}/>
       </div>
       <div className="additional-images">
         {spotDetails.SpotImages.slice(1, 5).map((image) => (
@@ -60,13 +57,23 @@ function SpotDetails() {
         <div className="reviews">
           {spotDetails.numReviews === 1 ? `${spotDetails.numReviews} Review` : `${spotDetails.numReviews} Reviews`}
         </div>
-
       </div>
       </section>
+
       <section className="reviews">
-          <p>{spotReviews.Reviews[0].review}</p>
-          <p>created by {spotReviews.Reviews[0].User.firstName} {formatMonthYear(spotReviews.Reviews[0].createdAt)}</p>
-      </section>
+        <div>
+          <OpenModalButton 
+            modalComponent={<ReviewModal spotId={parsedId}/>}
+            buttonText="Post Your Review"
+          />
+        </div>
+  {spotReviews.Reviews.map((review, index) => (
+    <div key={index}>
+      <p>{review.review}</p>
+      <p>created by {review.User.firstName} {formatMonthYear(review.createdAt)}</p>
+    </div>
+  ))}
+</section>
     </>
   )
 }
