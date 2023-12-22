@@ -10,15 +10,17 @@ const postSpotImage = (data) => {
 };
 
 export const spotImageThunk = ({url, spotId}) => async (dispatch) => {
+  const preview = true;
   const res = await csrfFetch(`/api/spots/${spotId}/images`, {
     method: "POST",
-    body: JSON.stringify({url, spotId})
+    body: JSON.stringify({url, preview})
   });
 
   const data = await res.json();
-  dispatch(postSpotImage(data))
+  dispatch(postSpotImage(data.url))
+  // dispatch(postSpotImage(data))
 
-  return res;
+  return data;
 };
 
 const initialState = {
@@ -30,7 +32,7 @@ const imageReducer = (state = initialState, action) => {
     case POST_SPOT_IMAGE:
       return {
         ...state,
-        data: action.data
+        images: action.data
       }
     
     default:

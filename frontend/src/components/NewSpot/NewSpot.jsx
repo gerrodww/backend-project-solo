@@ -13,7 +13,7 @@ function NewSpot() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('')
-  const [imageUrl, setImageUrl] = useState('')
+  const [url, setUrl] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,8 +28,10 @@ function NewSpot() {
       price
     };
 
-    dispatch(createSpot(spotData));
-    // dispatch(spotImageThunk({imageUrl, spotId}));
+    const createdSpot = await dispatch(createSpot(spotData));
+    const spotId = createdSpot.id
+    console.log(url, spotId, '*********************')
+    dispatch(spotImageThunk({url, spotId}));
   }
 
   return (
@@ -114,7 +116,7 @@ function NewSpot() {
 
         <label htmlFor='image'>image</label>
         <input type="text" id="image" name="image" 
-        onChange={(e) => setImageUrl(e.target.value)}
+        onChange={(e) => setUrl(e.target.value)}
         placeholder="Preview Image"></input>
         <input type="text" id="image" name="image"></input>
         <input type="text" id="image" name="image"></input>

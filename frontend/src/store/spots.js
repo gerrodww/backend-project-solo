@@ -51,7 +51,7 @@ export const createSpot = (spotData) => async (dispatch) => {
 
   const data = await res.json();
   dispatch(postSpot(data.spotData));
-  return res;
+  return data;
 }
 
 export const deleteSpotThunk = (spotId) => async (dispatch) => {
@@ -80,7 +80,7 @@ const spotsReducer = (state = initialState, action) => {
     case POST_SPOT:
       return {
         ...state,
-        spots: [...state.spots, action.spotData]
+        spotData: action.spotData
       }
 
     case DELETE_SPOT:
