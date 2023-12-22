@@ -37,13 +37,15 @@ function SpotDetails() {
     <section className="overview">
       <h1>{spotDetails.name}</h1>
       <div className="main-image">
-        <img src={spotDetails.SpotImages[0].url} alt={spotDetails.SpotImages.name}/>
-      </div>
-      <div className="additional-images">
-        {spotDetails.SpotImages.slice(1, 5).map((image) => (
-          <img key={image.id} src={image.url} alt={name} />
-        ))}
-      </div>
+          <img src={spotDetails.SpotImages[0].url} alt={spotDetails.SpotImages.name} />
+        </div>
+        {spotDetails.SpotImages.length > 1 && (
+          <div className="additional-images">
+            {spotDetails.SpotImages.slice(1, 5).map((image) => (
+              <img key={image.id} src={image.url} alt={name} />
+            ))}
+          </div>
+        )}
       <p>Location: {spotDetails.city}, {spotDetails.state}, {spotDetails.country}</p>
       <p>Hosted by: {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</p>
       <p>{spotDetails.description}</p>

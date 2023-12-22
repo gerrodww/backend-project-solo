@@ -49,7 +49,8 @@ export const postReviewThunk = ({ review, stars, spotId }) => async (dispatch) =
 }
 
 const initialState = {
-  spotDetails: null
+  spotDetails: null,
+  spotReviews: []
 };
 
 const spotDetailsReducer = (state = initialState, action) => {
@@ -70,7 +71,7 @@ const spotDetailsReducer = (state = initialState, action) => {
     case POST_SPOT_REVIEW:
       return {
         ...state,
-        review: action.review
+        spotReviews: [...state.spotReviews, action.review]
       }
 
     default:

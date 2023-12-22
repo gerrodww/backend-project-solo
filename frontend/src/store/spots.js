@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 
 export const LOAD_SPOTS = 'spots/LOAD_SPOTS'
 export const POST_SPOT = 'spots/POST_SPOT'
+export const DELETE_SPOT = 'spots/DELETE_SPOT'
 
 export const loadSpots = (spots) => ({
   type: LOAD_SPOTS,
@@ -13,12 +14,26 @@ export const postSpot = (spotData) => ({
   spotData
 });
 
+export const deleteSpot = (spotId) => ({
+  type: DELETE_SPOT,
+  spotId
+})
+
 export const fetchSpots = () => async (dispatch) => {
   const res = await csrfFetch('/api/spots');
 
   if (res.ok) {
     const spots = await res.json();
     dispatch(loadSpots(spots));
+  }
+}
+
+export const fetchCurrentSpots = () => async (dispatch) => {
+  const res = await csrfFetch('/api/spots/current');
+
+  if (res.ok) {
+    const spots = await res.json();
+    dispatch(loadSpots(spots))
   }
 }
 
@@ -39,6 +54,16 @@ export const createSpot = (spotData) => async (dispatch) => {
   return res;
 }
 
+export const deleteSpotThunk = (spotId) => async (dispatch) => {
+  const res = await csrfFetch(`/api/spots/${spotId}`, {
+    method: 'DELETE'
+  });
+
+  if (res.ok) {
+    dispatch(removeSpot(spotId));
+  }
+}
+
 const initialState = {
   spots: []
 }
@@ -55,7 +80,13 @@ const spotsReducer = (state = initialState, action) => {
     case POST_SPOT:
       return {
         ...state,
-        spotData: action.spotData
+        spots: [...state.spots, action.spotData]
+      }
+
+    case DELETE_SPOT:
+      return {
+        ...state,
+        spots: state.spots.filter((spot) => spot.id !== action.spotId),
       }
 
     default:
