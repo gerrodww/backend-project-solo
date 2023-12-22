@@ -60,7 +60,7 @@ export const deleteSpotThunk = (spotId) => async (dispatch) => {
   });
 
   if (res.ok) {
-    dispatch(removeSpot(spotId));
+    dispatch(deleteSpot(spotId));
   }
 }
 
