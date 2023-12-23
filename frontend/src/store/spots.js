@@ -50,7 +50,8 @@ export const createSpot = (spotData) => async (dispatch) => {
   });
 
   const data = await res.json();
-  dispatch(postSpot(data.spotData));
+  // dispatch(postSpot(data.spotData));
+  dispatch(postSpot(spotData));
   return data;
 }
 
@@ -65,7 +66,9 @@ export const deleteSpotThunk = (spotId) => async (dispatch) => {
 }
 
 const initialState = {
-  spots: []
+  spots: {
+    spots: []
+  }
 }
 
 const spotsReducer = (state = initialState, action) => {
@@ -80,7 +83,7 @@ const spotsReducer = (state = initialState, action) => {
     case POST_SPOT:
       return {
         ...state,
-        spotData: action.spotData
+        spots: action.spotData
       }
 
     case DELETE_SPOT:

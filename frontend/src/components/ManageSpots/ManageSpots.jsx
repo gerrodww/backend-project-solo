@@ -4,6 +4,7 @@ import { fetchCurrentSpots } from "../../store/spots";
 import { useNavigate } from "react-router-dom";
 import OpenModalButton from "../OpenModalButton";
 import DeleteSpotModal from "../DeleteSpotModal/DeleteSpotModal";
+import './ManageSpots.css'
 
 function ManageSpots() {
   const dispatch = useDispatch();
@@ -17,6 +18,10 @@ function ManageSpots() {
   function goToSpot(spotId) {
     navigate(`/spots/${spotId}`);
   }
+  
+  function goToSpotEdit(spotId) {
+    navigate(`/spots/${spotId}/edit`);
+  }
 
   return (
     <div className="current-spots-list">
@@ -24,7 +29,7 @@ function ManageSpots() {
       {spots.Spots &&
         spots.Spots.map((spot) => (
           <>
-          <div className="spot-tile" key={spot.id} 
+          <div className="spot-tile-manage" key={spot.id} 
             onClick={() => goToSpot(spot.id)} title={spot.name}>
             <div className="spot-image"> <img src={spot.previewImage} alt={spot.name} /> </div>
             <div className="spot-details">
@@ -34,12 +39,14 @@ function ManageSpots() {
               <div className="star-rating">Rating: {spot.avgRating.toFixed(2)}</div>
             </div>
               <div className="price-per-night">${spot.price} night </div>
-          </div>
+                </div>
+              <div className="update-delete">
           <OpenModalButton 
           modalComponent={<DeleteSpotModal spotId={spot.id}/>}
           buttonText='Delete'
           />
-          <button>Update</button>
+          <button onClick={() => goToSpotEdit(spot.id)}>Update</button>
+          </div>
           </>
         ))}
     </div>

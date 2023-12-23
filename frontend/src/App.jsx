@@ -6,6 +6,7 @@ import SpotList from './components/SpotList';
 import SpotDetails from './components/SpotDetails';
 import NewSpot from './components/NewSpot';
 import ManageSpots from './components/ManageSpots';
+import EditSpot from './components/EditSpot';
 
 import * as sessionActions from './store/session';
 
@@ -33,15 +34,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: < SpotList/>
+        element: < SpotList />
       },
       {
         path: '/spots/new',
-        element: < NewSpot/>
+        element: < NewSpot />
       },
       {
         path: '/spots/current',
         element: <ManageSpots />
+      },
+      {
+        path: '/spots/:spotId/edit',
+        element: <EditSpot />
       },
       {
         path: 'spots/:spotId',

@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { useDispatch } from 'react-redux';
-import { createSpot } from "../../store/spots";
-import { moreImageThunk, spotImageThunk } from "../../store/images";
-import { useNavigate } from "react-router-dom";
-import './NewSpot.css';
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { fetchSpotDetails } from "../../store/spotDetails";
 
-function NewSpot() {
+function EditSpot() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { spotId } = useParams();
+  const spotDetails = useSelector((state) => state.spotDetails.spotDetails);
+  const parsedId = parseInt(spotId, 10);
 
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
@@ -22,41 +22,48 @@ function NewSpot() {
   const [url4, setUrl4] = useState('')
   const [url5, setUrl5] = useState('')
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    dispatch(fetchSpotDetails(parsedId))
+    setAddress(spotDetails.address)
+    setCity(spotDetails.city)
+    setState(spotDetails.state)
+    setCountry(spotDetails.country)
+    setName(spotDetails.name)
+    setDescription(spotDetails.description)
+    setPrice(spotDetails.price)
+    setUrl(spotDetails.SpotImages[0].url)
 
-    const spotData = {
-      address,
-      city,
-      state,
-      country,
-      name,
-      description,
-      price
-    };
-
-    const createdSpot = await dispatch(createSpot(spotData));
-    const spotId = createdSpot.id
-    await dispatch(spotImageThunk({url, spotId}));
-
-    const additionalUrls = [url2, url3, url4, url5];
-    for (let i = 0; i < additionalUrls.length; i++) {
-      if (additionalUrls[i]) {
-        await dispatch(moreImageThunk({ url: additionalUrls[i], spotId}));
-      }
+    if (spotDetails.SpotImages.length > 1) {
+      setUrl2(spotDetails.SpotImages[1].url)
     }
-    navigate(`/spots/${spotId}`);
-  }
+
+    if (spotDetails.SpotImages.length > 2) {
+      setUrl3(spotDetails.SpotImages[2].url)
+    }
+
+    if (spotDetails.SpotImages.length > 3) {
+      setUrl4(spotDetails.SpotImages[3].url)
+    }
+
+    if (spotDetails.SpotImages.length > 4) {
+      setUrl5(spotDetails.SpotImages[4].url)
+    }
+
+  }, [dispatch, parsedId])
+
+  console.log(spotDetails, "spotdetails *****");
+
+  
 
   return (
     <>
       <div>
-        <h1>Create a new Spot</h1>
+        <h1>Editing spot at</h1>
         <h2>Where&apos;s your place located?</h2>
         <p>Guests will only get your exact address once they&apos;ve have booked a reservation</p>
       </div>
 
-      <form className='new-spot-form' onSubmit={handleSubmit}>
+      <form>
         <div>
         <label>Country
           <input 
@@ -97,7 +104,7 @@ function NewSpot() {
 
         <div>
         <label>Description
-          <textarea 
+          <input 
             type="text" value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Describe your scary spot"
@@ -128,27 +135,27 @@ function NewSpot() {
         </label>
         </div>
 
-        <label htmlFor='image'>image</label>
-        <input type="text" id="image" name="image" 
+        <label>images</label>
+        <input type="text" name="image" value={url}
         onChange={(e) => setUrl(e.target.value)}
         placeholder="Preview Image"></input>
-        <input type="text" id="image-2" name="image"
+        <input type="text" name="image" value={url2}
         onChange={(e) => setUrl2(e.target.value)}
         ></input>
-        <input type="text" id="image-3" name="image"
+        <input type="text" name="image" value={url3}
         onChange={(e) => setUrl3(e.target.value)}
         ></input>
-        <input type="text" id="image-4" name="image"
+        <input type="text" name="image" value={url4}
         onChange={(e) => setUrl4(e.target.value)}
         ></input>
-        <input type="text" id="image-5" name="image"
+        <input type="text" name="image" value={url5}
         onChange={(e) => setUrl5(e.target.value)}
         ></input>
 
-        <button type="submit">Create new Spot</button>
+        <button type="submit">Edit spot</button>
       </form>
     </>
   )
 }
 
-export default NewSpot;
+export default EditSpot;

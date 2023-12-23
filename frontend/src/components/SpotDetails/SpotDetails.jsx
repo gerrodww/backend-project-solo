@@ -35,7 +35,11 @@ function SpotDetails() {
   }
 
   const reviewArr = spotReviews.Reviews
-  const alreadyReviewed = reviewArr.find((review) => review.User.id === sessionUser.id)
+  let alreadyReviewed;
+  
+  if (reviewArr) {
+    alreadyReviewed = reviewArr.find((review) => review.User.id === sessionUser.id)
+  }
 
   return (
     <>
