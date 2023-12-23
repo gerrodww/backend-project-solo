@@ -1,0 +1,85 @@
+.spot-details-all {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.overview {
+  display: flex;
+  flex-direction: column;
+}
+
+.image-container {
+  display: grid;
+  grid-template-areas: 
+    'main main additional additional'
+    'main main additional additional'
+  ;
+}
+
+.main-image  {
+  grid-area: main;
+  height: 500px;
+  width: 500px;
+}
+
+.main-image img {
+  width: 498;
+  height: 498;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.additional-images {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 500px;
+  width: 500px;
+}
+
+.additional-images img {
+  width: 248px;
+  height: 248px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.solo-image img {
+  width: 1000px;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.details-callout {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgb(255, 166, 107);
+}
+
+.description {
+  width: 680px;
+}
+
+.reserve-box {
+  width: 300px;
+  height: fit-content;
+  border: 1px solid rgb(255, 166, 107);
+  border-radius: 5px;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: 
+  'price' 'rating'
+  'reserve' 'reserve';
+}
+
+.ppn {
+  grid-area: price;
+}
+
+.num-star {
+  grid-area: rating;
+}
+
+.reserve-button {
+  grid-area: reserve;
+}

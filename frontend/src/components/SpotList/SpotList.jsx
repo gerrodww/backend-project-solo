@@ -28,7 +28,11 @@ function SpotList() {
               <div className="city-state">
                 {spot.city}, {spot.state}
               </div>
+              {spot.avgRating ? (
               <div className="star-rating">Rating: {spot.avgRating.toFixed(2)}</div>
+            ) : (
+              <div className="new-star"> < i className="fa-solid fa-star"/>  New</div>
+            )}
             </div>
               <div className="price-per-night">${spot.price} night</div>
           </div>

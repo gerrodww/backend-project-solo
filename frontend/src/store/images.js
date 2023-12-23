@@ -18,7 +18,19 @@ export const spotImageThunk = ({url, spotId}) => async (dispatch) => {
 
   const data = await res.json();
   dispatch(postSpotImage(data.url))
-  // dispatch(postSpotImage(data))
+
+  return data;
+};
+
+export const moreImageThunk = ({url, spotId}) => async (dispatch) => {
+  const preview = false;
+  const res = await csrfFetch(`/api/spots/${spotId}/images`, {
+    method: "POST",
+    body: JSON.stringify({url, preview})
+  });
+
+  const data = await res.json();
+  dispatch(postSpotImage(data.url))
 
   return data;
 };

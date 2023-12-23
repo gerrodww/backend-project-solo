@@ -4,12 +4,14 @@ import { useParams } from "react-router-dom";
 import { fetchSpotDetails, fetchSpotReviews } from "../../store/spotDetails";
 import OpenModalButton from "../OpenModalButton";
 import ReviewModal from "../ReviewModal";
+import './SpotDetails.css';
 
 function SpotDetails() {
   const dispatch = useDispatch();
   const { spotId } = useParams();
   const spotDetails = useSelector((state) => state.spotDetails.spotDetails);
   const spotReviews = useSelector((state) => state.spotDetails.spotReviews);
+  const sessionUser = useSelector((state) => state.session.user)
   const parsedId = parseInt(spotId, 10);
 
   useEffect(() => {
@@ -32,50 +34,74 @@ function SpotDetails() {
     return <h1>Loading spot...</h1>
   }
 
+  const reviewArr = spotReviews.Reviews
+  const alreadyReviewed = reviewArr.find((review) => review.User.id === sessionUser.id)
+
   return (
     <>
+    <div className="spot-details-all">
     <section className="overview">
-      <h1>{spotDetails.name}</h1>
+      <div>
+      <h2>{spotDetails.name}</h2>
+      <p>{spotDetails.city}, {spotDetails.state}, {spotDetails.country}</p>
+      </div>
+        <div className="image-container">
+  {spotDetails.SpotImages.length === 1 ? (
+    <div className="solo-image">
+      <img src={spotDetails.SpotImages[0].url} alt={spotDetails.SpotImages[0].name} />
+    </div>
+  ) : (
+    <>
       <div className="main-image">
-          <img src={spotDetails.SpotImages[0].url} alt={spotDetails.SpotImages.name} />
+        <img src={spotDetails.SpotImages[0].url} alt={spotDetails.SpotImages[0].name} />
+      </div>
+      {spotDetails.SpotImages.length > 1 && (
+        <div className="additional-images">
+          {spotDetails.SpotImages.slice(1, 5).map((image) => (
+            <img key={image.id} src={image.url} alt={name} />
+          ))}
         </div>
-        {spotDetails.SpotImages.length > 1 && (
-          <div className="additional-images">
-            {spotDetails.SpotImages.slice(1, 5).map((image) => (
-              <img key={image.id} src={image.url} alt={name} />
-            ))}
-          </div>
-        )}
-      <p>Location: {spotDetails.city}, {spotDetails.state}, {spotDetails.country}</p>
+      )}
+    </>
+  )}
+</div>
+      <div className="details-callout">
+        <div className="description">
       <p>Hosted by: {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</p>
       <p>{spotDetails.description}</p>
-      <div className="details-callout">
-        <p>${spotDetails.price} per night</p>
-        <button onClick={reserveClick}>Reserve</button>
-        <div>
+      </div>
+        <div className="reserve-box">
+        <p className="ppn">${spotDetails.price} per night</p>
+        <div className="num-star">
+          <div>
         <i className="fa-solid fa-star" />
           {spotDetails.avgStarRating.toFixed(2)}
         </div>
-        <div className="reviews">
+        <div>
           {spotDetails.numReviews === 1 ? `${spotDetails.numReviews} Review` : `${spotDetails.numReviews} Reviews`}
+        </div>
+        </div>
+        <button className="reserve-button" onClick={reserveClick}>Reserve</button>
         </div>
       </div>
       </section>
 
       <section className="reviews">
+        {sessionUser && sessionUser.id !== spotDetails.ownerId && !alreadyReviewed && (
         <div>
           <OpenModalButton 
             modalComponent={<ReviewModal spotId={parsedId}/>}
             buttonText="Post Your Review"
           />
-        </div>
-  {spotReviews.Reviews.map((review, index) => (
-    <div key={index}>
+        </div>)}
+  {spotReviews.Reviews.map((review) => (
+    <div key={review.id}>
       <p>{review.review}</p>
       <p>created by {review.User.firstName} {formatMonthYear(review.createdAt)}</p>
     </div>
   ))}
 </section>
+</div>
     </>
   )
 }

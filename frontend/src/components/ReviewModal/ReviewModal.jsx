@@ -1,22 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { postReviewThunk } from "../../store/spotDetails";
+import { fetchSpotReviews, postReviewThunk } from "../../store/spotDetails";
+import { useModal } from "../../context/Modal";
 
 function ReviewModal({ spotId }) {
   const dispatch = useDispatch();
+  const { closeModal } = useModal();
   const [review, setReview] = useState("");
   const [stars, setStars] = useState(5); //example stars
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    return dispatch(
-      postReviewThunk({review, stars, spotId})
-    )
+    dispatch(postReviewThunk({review, stars, spotId}))
+    closeModal();
   }
+
+  useEffect (() => {
+    dispatch(fetchSpotReviews(spotId))
+  }, [dispatch, review, spotId])
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form>
         <label> Review
           <input 
           type="text"
@@ -24,8 +29,15 @@ function ReviewModal({ spotId }) {
           onChange={(e) => setReview(e.target.value)}
           required
           />
+          <div className="stars">
+            <i className="fa-solid fa-star"/>
+            <i className="fa-solid fa-star"/>
+            <i className="fa-solid fa-star"/>
+            <i className="fa-solid fa-star"/>
+            <i className="fa-solid fa-star"/>
+          </div>
         </label>
-        <button type="submit">Submit Review</button>
+        <button type="button" onClick={handleSubmit}>Submit Review</button>
       </form>
     </>
   )
