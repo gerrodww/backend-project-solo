@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { fetchSpotDetails } from "../../store/spotDetails";
+import { editSpotThunk } from "../../store/spots";
 
 function EditSpot() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { spotId } = useParams();
   const spotDetails = useSelector((state) => state.spotDetails.spotDetails);
   const parsedId = parseInt(spotId, 10);
@@ -16,14 +18,19 @@ function EditSpot() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('')
-  const [url, setUrl] = useState('')
-  const [url2, setUrl2] = useState('')
-  const [url3, setUrl3] = useState('')
-  const [url4, setUrl4] = useState('')
-  const [url5, setUrl5] = useState('')
+  // const [url, setUrl] = useState('')
+  // const [url2, setUrl2] = useState('')
+  // const [url3, setUrl3] = useState('')
+  // const [url4, setUrl4] = useState('')
+  // const [url5, setUrl5] = useState('')
 
   useEffect(() => {
     dispatch(fetchSpotDetails(parsedId))
+  }, [dispatch, parsedId])
+
+  useEffect(() => {
+    
+    if (spotDetails) {
     setAddress(spotDetails.address)
     setCity(spotDetails.city)
     setState(spotDetails.state)
@@ -31,29 +38,46 @@ function EditSpot() {
     setName(spotDetails.name)
     setDescription(spotDetails.description)
     setPrice(spotDetails.price)
-    setUrl(spotDetails.SpotImages[0].url)
+    // setUrl(spotDetails.SpotImages[0].url)
 
-    if (spotDetails.SpotImages.length > 1) {
-      setUrl2(spotDetails.SpotImages[1].url)
+    // if (spotDetails.SpotImages.length > 1) {
+    //   setUrl2(spotDetails.SpotImages[1].url)
+    // }
+
+    // if (spotDetails.SpotImages.length > 2) {
+    //   setUrl3(spotDetails.SpotImages[2].url)
+    // }
+
+    // if (spotDetails.SpotImages.length > 3) {
+    //   setUrl4(spotDetails.SpotImages[3].url)
+    // }
+
+    // if (spotDetails.SpotImages.length > 4) {
+    //   setUrl5(spotDetails.SpotImages[4].url)
+    // }
+    }
+  }, [spotDetails])
+
+  function goToSpot(spotId) {
+    navigate(`/spots/${spotId}`);
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const spotData = {
+      address,
+      city,
+      state,
+      country,
+      name,
+      description,
+      price
     }
 
-    if (spotDetails.SpotImages.length > 2) {
-      setUrl3(spotDetails.SpotImages[2].url)
-    }
-
-    if (spotDetails.SpotImages.length > 3) {
-      setUrl4(spotDetails.SpotImages[3].url)
-    }
-
-    if (spotDetails.SpotImages.length > 4) {
-      setUrl5(spotDetails.SpotImages[4].url)
-    }
-
-  }, [dispatch, parsedId])
-
-  console.log(spotDetails, "spotdetails *****");
-
-  
+    dispatch(editSpotThunk({spotData, spotId: parsedId}))
+    goToSpot(parsedId);
+  }
 
   return (
     <>
@@ -63,7 +87,7 @@ function EditSpot() {
         <p>Guests will only get your exact address once they&apos;ve have booked a reservation</p>
       </div>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <div>
         <label>Country
           <input 
@@ -127,7 +151,7 @@ function EditSpot() {
         <div>
         <label>Price per night
           <input 
-            type="text" value={price}
+            type="text" value={Number(price).toFixed(2)}
             onChange={(e) => setPrice(e.target.value)}
             placeholder="Price per night (USD)"
             required
@@ -135,7 +159,7 @@ function EditSpot() {
         </label>
         </div>
 
-        <label>images</label>
+        {/* <label>images</label>
         <input type="text" name="image" value={url}
         onChange={(e) => setUrl(e.target.value)}
         placeholder="Preview Image"></input>
@@ -150,7 +174,7 @@ function EditSpot() {
         ></input>
         <input type="text" name="image" value={url5}
         onChange={(e) => setUrl5(e.target.value)}
-        ></input>
+        ></input> */}
 
         <button type="submit">Edit spot</button>
       </form>

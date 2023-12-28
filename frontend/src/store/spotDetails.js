@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 export const LOAD_SPOT_DETAILS = 'spotDetails/LOAD_SPOT_DETAILS'
 export const LOAD_SPOT_REVIEWS = 'spotDetails/LOAD_SPOT_REVIEWS'
 export const POST_SPOT_REVIEW = 'spotDetails/POST_SPOT_REVIEW'
+export const DELETE_SPOT_REVIEW = 'spotDetails/DELETE_SPOT_REVIEW'
 
 export const loadSpotDetails = (spotDetails) => ({
   type: LOAD_SPOT_DETAILS,
@@ -18,6 +19,11 @@ export const postSpotReview = (review) => ({
   type: POST_SPOT_REVIEW,
   review
 });
+
+export const deleteSpotReview = (reviewId) => ({
+  type: DELETE_SPOT_REVIEW,
+  reviewId
+})
 
 export const fetchSpotDetails = (spotId) => async (dispatch) => {
   const res = await csrfFetch(`/api/spots/${spotId}`);
@@ -49,6 +55,16 @@ export const postReviewThunk = ({ review, stars, spotId }) => async (dispatch) =
   return data;
 }
 
+export const deleteReviewThunk = (reviewId) => async (dispatch) => {
+  const res = await csrfFetch(`/api/reviews/${reviewId}`, {
+    method: 'DELETE'
+  });
+
+  if (res.ok) {
+    dispatch(deleteSpotReview(reviewId))
+  }
+}
+
 const initialState = {
   spotDetails: null,
   spotReviews: []
@@ -72,7 +88,13 @@ const spotDetailsReducer = (state = initialState, action) => {
     case POST_SPOT_REVIEW:
       return {
         ...state,
-        spotReviews: [...state.spotReviews, action.spotReviews]
+        spotReviews: action.review
+      }
+
+    case DELETE_SPOT_REVIEW:
+      return {
+        ...state,
+        spotReviews: state.spotReviews.filter((review) => review.id != action.reviewId)
       }
 
     default:

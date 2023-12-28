@@ -23,6 +23,12 @@ function ManageSpots() {
     navigate(`/spots/${spotId}/edit`);
   }
 
+  if (!spots) {
+    return (
+      <h1>Loading...</h1>
+    )
+  }
+
   return (
     <div className="current-spots-list">
       <h1>Manage Spots</h1>

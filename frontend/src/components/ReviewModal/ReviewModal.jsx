@@ -12,12 +12,13 @@ function ReviewModal({ spotId }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(postReviewThunk({review, stars, spotId}))
+    dispatch(fetchSpotReviews(spotId))
     closeModal();
   }
 
   useEffect (() => {
     dispatch(fetchSpotReviews(spotId))
-  }, [dispatch, review, spotId])
+  }, [dispatch, spotId])
 
   return (
     <>
