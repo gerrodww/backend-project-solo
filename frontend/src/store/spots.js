@@ -32,6 +32,8 @@ export const fetchSpots = () => async (dispatch) => {
     const spots = await res.json();
     dispatch(loadSpots(spots));
   }
+
+  return res
 }
 
 export const fetchCurrentSpots = () => async (dispatch) => {
@@ -41,6 +43,8 @@ export const fetchCurrentSpots = () => async (dispatch) => {
     const spots = await res.json();
     dispatch(loadSpots(spots))
   }
+
+  return res
 }
 
 export const createSpot = (spotData) => async (dispatch) => {
@@ -68,6 +72,8 @@ export const deleteSpotThunk = (spotId) => async (dispatch) => {
   if (res.ok) {
     dispatch(deleteSpot(spotId));
   }
+
+  return res
 }
 
 export const editSpotThunk = ({spotData, spotId}) => async (dispatch) => {
@@ -85,6 +91,8 @@ export const editSpotThunk = ({spotData, spotId}) => async (dispatch) => {
   if (res.ok) {
     dispatch(editSpot(spotId))
   }
+
+  return res
 }
 
 const initialState = {

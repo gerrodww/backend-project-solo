@@ -32,6 +32,8 @@ export const fetchSpotDetails = (spotId) => async (dispatch) => {
     const spotDetails = await res.json();
     dispatch(loadSpotDetails(spotDetails));
   }
+
+  return res
 }
 
 export const fetchSpotReviews = (spotId) => async (dispatch) => {
@@ -41,6 +43,8 @@ export const fetchSpotReviews = (spotId) => async (dispatch) => {
     const spotReviews = await res.json();
     dispatch(loadSpotReviews(spotReviews));
   }
+
+  return res
 }
 
 export const postReviewThunk = ({ review, stars, spotId }) => async (dispatch) => {
@@ -55,14 +59,17 @@ export const postReviewThunk = ({ review, stars, spotId }) => async (dispatch) =
   return data;
 }
 
-export const deleteReviewThunk = (reviewId) => async (dispatch) => {
+export const deleteReviewThunk = ({reviewId, spotId}) => async (dispatch) => {
   const res = await csrfFetch(`/api/reviews/${reviewId}`, {
     method: 'DELETE'
   });
 
   if (res.ok) {
-    dispatch(deleteSpotReview(reviewId))
+    await dispatch(deleteSpotReview(reviewId))
+    dispatch(fetchSpotReviews(spotId))
   }
+
+  return res
 }
 
 const initialState = {
@@ -94,7 +101,9 @@ const spotDetailsReducer = (state = initialState, action) => {
     case DELETE_SPOT_REVIEW:
       return {
         ...state,
-        spotReviews: state.spotReviews.filter((review) => review.id != action.reviewId)
+        spotReviews: state.spotDetails && state.spotDetails.spotReviews
+        ? state.spotDetails.spotReviews.Reviews.filter((review) => review.id !== action.reviewId)
+        : state.spotReviews
       }
 
     default:

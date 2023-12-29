@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchSpotDetails, fetchSpotReviews, deleteReviewThunk } from "../../store/spotDetails";
+import { fetchSpotDetails, fetchSpotReviews } from "../../store/spotDetails";
 import OpenModalButton from "../OpenModalButton";
 import ReviewModal from "../ReviewModal";
+import DeleteReviewModal from "../DeleteReviewModal";
 import './SpotDetails.css';
 
 function SpotDetails() {
@@ -30,7 +31,7 @@ function SpotDetails() {
     return `${month} ${year}`
   }
 
-  if (!spotDetails) {
+  if (!spotDetails || !spotReviews) {
     return <h1>Loading spot...</h1>
   }
 
@@ -45,13 +46,6 @@ function SpotDetails() {
 
   function yourReview(id) {
     if (sessionUser && sessionUser.id === id) return true
-  }
-  
-  function yesDelete(reviewId) {
-    dispatch(deleteReviewThunk(reviewId))
-    .then(() => {
-      dispatch(fetchSpotReviews(parsedId))
-    })
   }
 
   return (
@@ -116,7 +110,12 @@ function SpotDetails() {
       <p>{review.review}</p>
       <p>created by {review.User.firstName} {formatMonthYear(review.createdAt)}</p>
       {yourReview(review.User.id) &&
-      <button className="delete-review" onClick={() => yesDelete(Number(review.id))}>Delete</button>
+      <div>
+        <OpenModalButton 
+          modalComponent={<DeleteReviewModal reviewId={review.id} spotId={parsedId}/>}
+          buttonText="Delete"
+        />
+      </div>
       }
     </div>
   ))}
