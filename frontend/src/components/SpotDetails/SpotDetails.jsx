@@ -61,22 +61,30 @@ function SpotDetails() {
       <h2>{spotDetails.name}</h2>
       <p>{spotDetails.city}, {spotDetails.state}, {spotDetails.country}</p>
       </div>
-        <div className="image-container">
-  {spotDetails.SpotImages.length === 1 ? (
-    <div className="solo-image">
-      <img src={spotDetails.SpotImages[0].url} alt={spotDetails.SpotImages[0].name} />
-    </div>
-  ) : (
+      <div className="image-container">
+  {spotDetails.SpotImages && spotDetails.SpotImages.length > 0 && (
     <>
-      <div className="main-image">
-        <img src={spotDetails.SpotImages[0].url} alt={spotDetails.SpotImages[0].name} />
-      </div>
-      {spotDetails.SpotImages.length > 1 && (
-        <div className="additional-images">
-          {spotDetails.SpotImages.slice(1, 5).map((image) => (
-            <img key={image.id} src={image.url} alt={name} />
-          ))}
+      {spotDetails.SpotImages.length === 1 ? (
+        <div className="solo-image">
+          {spotDetails.SpotImages[0].url && (
+            <img src={spotDetails.SpotImages[0].url} alt={spotDetails.SpotImages[0].name} />
+          )}
         </div>
+      ) : (
+        <>
+          <div className="main-image">
+            {spotDetails.SpotImages[0].url && (
+              <img src={spotDetails.SpotImages[0].url} alt={spotDetails.SpotImages[0].name} />
+            )}
+          </div>
+          {spotDetails.SpotImages.length > 1 && (
+            <div className="additional-images">
+              {spotDetails.SpotImages.slice(1, 5).map((image) => (
+                <img key={image.id} src={image.url} alt={image.name} />
+              ))}
+            </div>
+          )}
+        </>
       )}
     </>
   )}
