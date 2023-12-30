@@ -50,14 +50,14 @@ function NewSpot() {
 
   return (
     <>
-      <div>
-        <h1>Create a new Spot</h1>
+      <h1>Create a new Spot</h1>
+
+      <div className='new-spot-form'>
+      <div className="section-1-title">
         <h2>Where&apos;s your place located?</h2>
         <p>Guests will only get your exact address once they&apos;ve have booked a reservation</p>
       </div>
-
-      <form className='new-spot-form' onSubmit={handleSubmit}>
-        <div>
+        <div className="section-1">
         <label>Country
           <input 
             type="text" value={country}
@@ -95,32 +95,45 @@ function NewSpot() {
         </label>
         </div>
 
-        <div>
-        <label>Description
+        <div className="section-1-title">
+          <h2>Describe your place to guests</h2>
+          <p>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.</p>
+        </div>
+        <div className="section-1">
+        <label>
           <textarea 
             type="text" value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Describe your scary spot"
+            placeholder="Please write at least 30 characters"
             required
           />
         </label>
         </div>
         
-        <div>
-        <label>Title
+        <div className="section-1-title">
+          <h2>Create a title for your spot</h2>
+          <p>Catch guests&apos; attention with a spot title that highlights what makes your place special</p>
+        </div>
+        <div className="section-1">
+        <label>
           <input 
             type="text" value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Give your spooky spot a title"
+            placeholder="Name your spot"
             required
           />
         </label>
         </div>
 
-        <div>
-        <label>Price per night
+        <div className="section-1-title">
+          <h2>Set a base price for your spot</h2>
+          <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
+        </div>
+
+        <div className="section-1">
+        <label>
           <input 
-            type="text" value={price}
+            type="number" value={price}
             onChange={(e) => setPrice(e.target.value)}
             placeholder="Price per night (USD)"
             required
@@ -128,25 +141,31 @@ function NewSpot() {
         </label>
         </div>
 
-        <label htmlFor='image'>image</label>
+        <div className="section-1-title">
+          <h2>Liven up your spot with photos</h2>
+          <p>Submit a link to at least one photo to publish to your spot.</p>
+        </div>
+
+        <div className="section-1">
         <input type="text" id="image" name="image" 
         onChange={(e) => setUrl(e.target.value)}
         placeholder="Preview Image"></input>
         <input type="text" id="image-2" name="image"
         onChange={(e) => setUrl2(e.target.value)}
-        ></input>
+        placeholder="Image URL"></input>
         <input type="text" id="image-3" name="image"
         onChange={(e) => setUrl3(e.target.value)}
-        ></input>
+        placeholder="Image URL"></input>
         <input type="text" id="image-4" name="image"
         onChange={(e) => setUrl4(e.target.value)}
-        ></input>
+        placeholder="Image URL"></input>
         <input type="text" id="image-5" name="image"
         onChange={(e) => setUrl5(e.target.value)}
-        ></input>
+        placeholder="Image URL"></input>
+        </div>
 
-        <button type="submit">Create new Spot</button>
-      </form>
+        <button className="submit-spot" onClick={handleSubmit}>Create new Spot</button>
+      </div>
     </>
   )
 }

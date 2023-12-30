@@ -37,7 +37,7 @@ function SpotList() {
                 {spot.city}, {spot.state}
               </div>
               {spot.avgRating ? (
-              <div className="star-rating">Rating: {spot.avgRating.toFixed(2)}</div>
+              <div className="star-rating">< i className="fa-solid fa-star"/> {spot.avgRating.toFixed(2)}</div>
             ) : (
               <div className="new-star"> < i className="fa-solid fa-star"/>  New</div>
             )}

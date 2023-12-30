@@ -15,12 +15,12 @@ function DeleteReviewModal({reviewId, spotId}) {
 
   return (
     <>
-      <div>
+      <div className="delete-modal">
         <h2>Confirm delete</h2>
         <label> Are you sure you want to delete this review?
-          <div>
-            <button onClick={(e) => yesClick(reviewId, e)}>Yes (delete review)</button>
-            <button onClick={closeModal}>No (keep review)</button>
+          <div className="buttons">
+            <button className='yes-delete' onClick={(e) => yesClick(reviewId, e)}>Yes (delete review)</button>
+            <button className='no-delete' onClick={closeModal}>No (keep review)</button>
           </div>
         </label>
       </div>

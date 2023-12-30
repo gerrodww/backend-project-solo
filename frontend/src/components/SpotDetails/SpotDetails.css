@@ -61,25 +61,56 @@
 }
 
 .reserve-box {
-  width: 300px;
+  width: 500px;
   height: fit-content;
   border: 1px solid rgb(255, 166, 107);
   border-radius: 5px;
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  grid-template-areas: 
-  'price' 'rating'
-  'reserve' 'reserve';
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 10px;
+}
+
+.ppn-rating {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
 }
 
 .ppn {
-  grid-area: price;
+  font-size: larger;
 }
 
 .num-star {
-  grid-area: rating;
+  display: flex;
+  align-items: center;
+}
+
+.separator {
+  margin: 0 2px;
 }
 
 .reserve-button {
-  grid-area: reserve;
+  width: 95%;
+  margin: 8px auto 8px auto;
+}
+
+.review-details2 {
+  margin-top: 15px;
+  font-size: 25px;
+}
+
+.fa-star {
+  padding-right: 5px;
+}
+
+.review-modal-button {
+  width: 200px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.delete-review-button {
+  width: 250px;
 }

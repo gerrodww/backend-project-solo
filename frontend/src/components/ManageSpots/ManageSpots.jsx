@@ -23,6 +23,10 @@ function ManageSpots() {
     navigate(`/spots/${spotId}/edit`);
   }
 
+  function toNewForm() {
+    navigate('/spots/new')
+  }
+
   if (!spots) {
     return (
       <h1>Loading...</h1>
@@ -30,11 +34,14 @@ function ManageSpots() {
   }
 
   return (
+    <>
+      <h1 className="manage-spots-h1">Manage Spots</h1>
+      <button className="to-new" onClick={toNewForm}>Create a New Spot</button>
     <div className="current-spots-list">
-      <h1>Manage Spots</h1>
       {spots.Spots &&
         spots.Spots.map((spot) => (
           <>
+          <div className="spot-content">
           <div className="spot-tile-manage" key={spot.id} 
             onClick={() => goToSpot(spot.id)} title={spot.name}>
             <div className="spot-image"> <img src={spot.previewImage} alt={spot.name} /> </div>
@@ -53,9 +60,11 @@ function ManageSpots() {
           />
           <button onClick={() => goToSpotEdit(spot.id)}>Update</button>
           </div>
+          </div>
           </>
         ))}
     </div>
+    </>
   )
 }
 

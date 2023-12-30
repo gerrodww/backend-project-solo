@@ -1,0 +1,31 @@
+.new-spot-form {
+  background-color: #191717;
+  padding: 20px;
+  border-radius: 10px;
+  width: 600px;
+  margin: 0 auto;
+}
+
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  box-sizing: border-box;
+  resize: both; 
+  background-color: #232020;
+  color: white;
+  border: 1px solid rgb(182, 91, 30);
+  border-radius: 4px;
+}
+
+.section-1-title {
+  text-align: center;
+}
+
+.section-1 {
+  border-bottom: 1px solid rgb(182, 91, 30);;
+}
+
+.submit-spot {
+  margin-top: 10px;
+}

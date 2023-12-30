@@ -24,6 +24,11 @@ function SpotDetails() {
     window.alert('Feature coming soon!');
   }
 
+  function refreshContent() {
+    dispatch(fetchSpotDetails(parsedId))
+    dispatch(fetchSpotReviews(parsedId))
+  }
+
   function formatMonthYear(dateString) {
     const date = new Date(dateString);
     const month = date.toLocaleString('default', {month: 'long'});
@@ -82,38 +87,74 @@ function SpotDetails() {
       <p>{spotDetails.description}</p>
       </div>
         <div className="reserve-box">
+          <div className="ppn-rating">
         <p className="ppn">${spotDetails.price} per night</p>
         <div className="num-star">
-          <div>
-        <i className="fa-solid fa-star" />
-          {spotDetails.avgStarRating.toFixed(2)}
-        </div>
-        <div>
-          {spotDetails.numReviews === 1 ? `${spotDetails.numReviews} Review` : `${spotDetails.numReviews} Reviews`}
-        </div>
-        </div>
+        {spotDetails.numReviews > 0 ? (
+          <>
+            <div>
+              <i className="fa-solid fa-star" />
+              {spotDetails.avgStarRating.toFixed(2)}
+            </div>
+            <div>
+              <span className="separator"> &middot; </span>
+              {spotDetails.numReviews === 1
+                ? `${spotDetails.numReviews} Review`
+                : `${spotDetails.numReviews} Reviews`}
+            </div>
+          </>
+            ) : (
+              <div>
+                <i className="fa-solid fa-star" />
+                New
+              </div>
+            )}
+          </div>
+          </div>
         <button className="reserve-button" onClick={reserveClick}>Reserve</button>
         </div>
       </div>
       </section>
 
       <section className="reviews">
+        <div className="review-details2">
+          {spotDetails.numReviews > 0 ? (
+            <>
+              <i className="fa-solid fa-star r2" />
+              {spotDetails.avgStarRating.toFixed(2)}
+              <span className="separator"> &middot; </span>
+              {spotDetails.numReviews === 1
+                ? `${spotDetails.numReviews} Review`
+                : `${spotDetails.numReviews} Reviews`}
+            </>
+          ) : (
+            <>
+              <i className="fa-solid fa-star r2" />
+              New
+            </>
+          )}
+        </div>
         {sessionUser && !areOwner && !alreadyReviewed && (
-        <div>
+        <div className="review-modal-button">
           <OpenModalButton 
             modalComponent={<ReviewModal spotId={parsedId}/>}
             buttonText="Post Your Review"
+            onModalClose={() => refreshContent}
           />
         </div>)}
+        {sessionUser && !areOwner && spotReviews.Reviews === null && (
+          <h2>Be the first to post a review!</h2>
+        )}
   {spotReviews.Reviews && spotReviews.Reviews.map((review) => (
     <div key={Number(review.id)}>
       <p>{review.review}</p>
       <p>created by {review.User.firstName} {formatMonthYear(review.createdAt)}</p>
       {yourReview(review.User.id) &&
-      <div>
+      <div className="delete-review-button">
         <OpenModalButton 
           modalComponent={<DeleteReviewModal reviewId={review.id} spotId={parsedId}/>}
           buttonText="Delete"
+          onModalClose={() => refreshContent}
         />
       </div>
       }

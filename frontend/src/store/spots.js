@@ -119,13 +119,15 @@ const spotsReducer = (state = initialState, action) => {
     case DELETE_SPOT:
       return {
         ...state,
-        spots: state.spots.filter((spot) => spot.id !== action.spotId),
+        spots: state.spots.spots.spots.filter((spot) => spot.id !== action.spotId),
       }
 
     case EDIT_SPOT:
       return {
         ...state,
-        spots: action.spotData
+        spots: state.spots.spots.spots.map((spot) =>
+          spot.id === action.spotData.id ? action.spotData : spot
+        ),
       }
 
     default:

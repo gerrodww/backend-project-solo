@@ -15,10 +15,14 @@
   right: 0;
   left: 0;
   bottom: 0;
-  background-color: #232020;
+  /* background-color: #232020; */
+  
 }
 
 #modal-content {
   position: absolute;
   background-color: #232020;
+  border: 1px solid rgb(182, 91, 30);
+  border-radius: 5px;
+  padding: 25px;
 }

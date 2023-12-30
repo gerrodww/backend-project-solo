@@ -14,6 +14,7 @@ function DeleteSpotModal({spotId}) {
   return (
     <>
       <form>
+        <h2>Confirm delete</h2>
         <label className="delete-modal"> Are you sure you want to remove this spot?</label>
         <div className="buttons">
           <button className="yes-delete" onClick={() => yesClick(spotId)}>Yes</button>
