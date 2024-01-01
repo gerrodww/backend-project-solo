@@ -56,6 +56,7 @@ export const postReviewThunk = ({ review, stars, spotId }) => async (dispatch) =
   const data = await res.json();
   const reviewData = { review, stars}
   dispatch(postSpotReview(reviewData))
+  dispatch(fetchSpotDetails(spotId))
   return data;
 }
 
