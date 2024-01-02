@@ -2,7 +2,13 @@
 # AirBnB Clone
 <!--!!END -->
 <!--!!ADD -->
-<!-- # `<name of application here>` -->
+# scarebnb
+This is an airbnb clone written using JavaScript, HTML, CSS, Express, React and Redux
+
+Live link: https://scarebnb.onrender.com      
+
+Github: https://github.com/gerrodww/scarebnb.git
+
 <!--!!END_ADD -->
 
 ## Database Schema Design

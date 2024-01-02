@@ -19,7 +19,7 @@ textarea {
 }
 
 .section-1-title {
-  text-align: center;
+  text-align: left;
 }
 
 .section-1 {
@@ -28,4 +28,12 @@ textarea {
 
 .submit-spot {
   margin-top: 10px;
+}
+
+.subtitle {
+  text-align: left;
+}
+
+.heading-title {
+  padding-right: 330px;
 }

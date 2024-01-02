@@ -150,8 +150,8 @@ function SpotDetails() {
             onModalClose={() => refreshContent}
           />
         </div>)}
-        {sessionUser && !areOwner && spotReviews.Reviews === null && (
-          <h2>Be the first to post a review!</h2>
+        {sessionUser && !areOwner && spotReviews.Reviews.length === 0 && (
+          <h2 className="be-the-first">Be the first to post a review!</h2>
         )}
   {spotReviews.Reviews && spotReviews.Reviews.map((review) => (
     <div key={Number(review.id)}>

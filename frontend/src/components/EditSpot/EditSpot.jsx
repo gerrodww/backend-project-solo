@@ -80,11 +80,11 @@ function EditSpot() {
 
   return (
     <>
-      <h1>Update your Spot</h1>
+      <h1 className="heading-title">Update your Spot</h1>
 
       <div className='new-spot-form'>
       <div className="section-1-title">
-        <h2>Where&apos;s your place located?</h2>
+        <h2 className="subtitle">Where&apos;s your place located?</h2>
         <p>Guests will only get your exact address once they&apos;ve have booked a reservation</p>
       </div>
         <div className="section-1">
@@ -126,7 +126,7 @@ function EditSpot() {
         </div>
 
         <div className="section-1-title">
-          <h2>Describe your place to guests</h2>
+          <h2 className="subtitle">Describe your place to guests</h2>
           <p>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.</p>
         </div>
         <div className="section-1">
@@ -141,7 +141,7 @@ function EditSpot() {
         </div>
         
         <div className="section-1-title">
-          <h2>Create a title for your spot</h2>
+          <h2 className="subtitle">Create a title for your spot</h2>
           <p>Catch guests&apos; attention with a spot title that highlights what makes your place special</p>
         </div>
         <div className="section-1">
@@ -156,7 +156,7 @@ function EditSpot() {
         </div>
 
         <div className="section-1-title">
-          <h2>Set a base price for your spot</h2>
+          <h2 className="subtitle">Set a base price for your spot</h2>
           <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
         </div>
 

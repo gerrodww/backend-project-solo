@@ -20,7 +20,7 @@ function ReviewModal({ spotId }) {
     closeModal();
   }
 
-  const buttonDisabled = () => review.length < 30 || stars === null;
+  const buttonDisabled = () => review.length < 10 || stars === null;
 
   useEffect (() => {
     dispatch(fetchSpotReviews(spotId))
