@@ -10,6 +10,45 @@ Live link: https://scarebnb.onrender.com
 Github: https://github.com/gerrodww/scarebnb.git
 
 <!--!!END_ADD -->
+# Features
+
+<!--!!START SILENT -->
+## Spots
+Logged in users can create a spot with location, description, price, and 1-5 images.
+
+All spots will be displayed on the main page showing location, rating, and price. When a user clicks on any tile further details about that spot will be shown
+
+![Spot details](scarebnb1.png)
+
+Logged in users can also edit the location description and price of any spots they've created.
+<!--!!END_ADD -->
+
+<!--!!START SILENT -->
+## Reviews
+Logged in users can create 1 review for any spot they do not own. This user can also delete this review. 
+
+![Create a review](scarebnb2.png)
+<!--!!END_ADD -->
+# Redux State Outline
+<!--!!START SILENT -->
+```
+const scarebnb = {
+  session : {
+    user
+  },
+  spots : {
+    spotId
+  },
+  spotDetails : {
+    spotDetails
+  },
+  images : {
+    imageUrl
+  }
+}
+```
+
+<!--!!END_ADD -->
 
 ## Database Schema Design
 
